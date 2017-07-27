@@ -118,11 +118,10 @@ public class Class {
 				lines += i.getLine() + "\n";
 			}
 		}
-		if (!file.getAbsolutePath().contains("android")) { //To ignore assembly problem
+
 		FileWriter fw = new FileWriter(file, false);
 		fw.write(lines);
 		fw.close();
-		}
 	}
 
 	public String getSuperName() {

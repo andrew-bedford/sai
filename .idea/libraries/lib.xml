@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/apktool_2.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/baksmali-2.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/smali-2.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jgrapht-core-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jgrapht-ext-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/apktool_2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/zip4j_1.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jgraph-5.13.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

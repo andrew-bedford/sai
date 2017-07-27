@@ -1,0 +1,28 @@
+package sai.datastructures;
+
+public enum InstructionType {
+	CLASS,
+	SUPER,
+	SOURCE,
+	FIELD,
+	PUT,
+	GET,
+	INVOKE,
+	MOVE_RESULT,
+	IF,
+	LABEL,
+	GOTO,
+	SWITCH,
+	ANNOTATION,
+	METHOD_BEGIN,
+	METHOD_END,
+	CONST,
+	NEW,
+	RETURN,
+	COMMENT,
+	CAST,
+	LOCALS,
+	CATCH,
+	NOP,
+	OTHER
+}

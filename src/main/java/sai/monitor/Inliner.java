@@ -1,12 +1,8 @@
 package sai.monitor;
 
-import java.io.File;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import helpers.FileHelper;
-import sai.Configuration;
 import sai.datastructures.Application;
 import sai.datastructures.Class;
 import sai.datastructures.Instruction;
@@ -14,14 +10,15 @@ import sai.datastructures.InstructionType;
 import sai.datastructures.Method;
 
 public class Inliner {
-	public static void inline(Application a) {
-		taintSources(a);
-		checkSinks(a);
-		propagateTaints(a);
+    //TODO Refacter so that the monitor to inline is also a parameter. Maybe the monitor's rewriting logic could be kept in a easy-to-edit file? In this format, the user should be able to 
+	public static void  inline(Application a) {
+		insertSourceTaintingLogic(a);
+		insertSinkChecks(a);
+		insertTaintPropagationLogic(a);
 		updatePc(a);
 }
 
-	private static void taintSources(Application a) {
+	private static void insertSourceTaintingLogic(Application a) {
 		for (Class c : a.getClasses()) {
 			for (Method m : c.getMethods()) {
 				m.incrementNumberOfLocals();
@@ -84,7 +81,7 @@ public class Inliner {
 	}
 	
 	//TODO Also propagate when arithmetic operations are used or conversions (see Dalvik operations)
-	private static void propagateTaints(Application a) {
+	private static void insertTaintPropagationLogic(Application a) {
 		for (Class c : a.getClasses()) {
 			for (Method m : c.getMethods()) {
 				m.incrementNumberOfLocals();
@@ -105,7 +102,8 @@ public class Inliner {
 					}
 					
 					if (i.getType() == InstructionType.MOVE_RESULT && taintNextResult) {
-						
+
+						//TODO Move the registers backup and restoration logic to dedicated functions
 						List<String> registersToTaint = i.getRegistersUsed();
 						for (String fromRegister : registersToPropagate) {
 							for (String toRegister : registersToTaint) {
@@ -138,7 +136,7 @@ public class Inliner {
 		}
 	}
 	
-	private static void checkSinks(Application a) {
+	private static void insertSinkChecks(Application a) {
 		for (Class c : a.getClasses()) {
 			for (Method m : c.getMethods()) {
 				List<Instruction> instructions = m.getInstructions();
@@ -151,6 +149,7 @@ public class Inliner {
 					if (i.getType() == InstructionType.INVOKE && i.getLine().contains("Landroid/telephony/SmsManager;->sendTextMessage")) {
 						List<String> registersToCheck = i.getRegistersUsed();
 						for (String r : registersToCheck) {
+						    //TODO Include the name of the invoke that is guarded as one of the parameters of the check (so that the check can display more details to the user)
 							Instruction newInstruction = new Instruction("invoke-static {"+r+"}, Lsai/Monitor;->check(Ljava/lang/Object;)V");
 							newInstructions.add(index, newInstruction);
 						}

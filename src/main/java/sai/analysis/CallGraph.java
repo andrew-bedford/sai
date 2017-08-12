@@ -24,7 +24,39 @@ public class CallGraph {
 	public static void generate(Application a) {
 		cg = new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
 		cg.addVertex("begin");
-		
+
+		Stack<Method> methodsToExplore = extractEntryPoints(a);
+		addInvokedMethodsToCallGraph(a, methodsToExplore);
+
+		exportGraphToDotFile(cg, "./tmp/call-graph.dot");
+	}
+
+	private static void addInvokedMethodsToCallGraph(Application a, Stack<Method> methodsToExplore) {
+		while (!methodsToExplore.isEmpty()) {
+			Method m = methodsToExplore.pop();
+
+			for (Instruction i : m.getInstructions()) {
+				if (i.getType() == InstructionType.INVOKE && (!i.getInvokedClassName().startsWith("Landroid") && !i.getInvokedClassName().startsWith("Ljava"))) {
+					String nameOfMethodInvoking = m.getParentClass().getName()+";->"+m.getName();
+					String nameOfMethodInvoked = i.getInvokedClassName()+";->"+i.getInvokedMethodName();
+
+					System.out.println(nameOfMethodInvoking + " CALLS " + nameOfMethodInvoked);
+
+					cg.addVertex(nameOfMethodInvoking);
+
+					Class classOfMethodInvoked = a.getClass(i.getInvokedClassName());
+					Method methodInvoked = classOfMethodInvoked.getMethod(i.getInvokedMethodName());
+					if (methodInvoked != null) {
+						methodsToExplore.push(methodInvoked);
+						cg.addVertex(nameOfMethodInvoked);
+						cg.addEdge(nameOfMethodInvoking, nameOfMethodInvoked);
+					}
+				}
+			}
+		}
+	}
+
+	private static Stack<Method> extractEntryPoints(Application a) {
 		List<Method> entryPoints = new LinkedList<Method>();
 		List<String> methodsExplored = new LinkedList<String>();
 		Stack<Method> methodsToExplore = new Stack<Method>();
@@ -38,31 +70,7 @@ public class CallGraph {
 				methodsToExplore.add(m);
 			}
 		}
-		
-		while (!methodsToExplore.isEmpty()) {
-			Method m = methodsToExplore.pop();
-			
-			for (Instruction i : m.getInstructions()) {
-				if (i.getType() == InstructionType.INVOKE && (!i.getInvokedClassName().startsWith("Landroid") && !i.getInvokedClassName().startsWith("Ljava"))) {
-					String nameOfMethodInvoking = m.getParentClass().getName()+";->"+m.getName();
-					String nameOfMethodInvoked = i.getInvokedClassName()+";->"+i.getInvokedMethodName();
-					
-					System.out.println(nameOfMethodInvoking + " CALLS " + nameOfMethodInvoked);
-				
-					cg.addVertex(nameOfMethodInvoking);
-					
-					Class classOfMethodInvoked = a.getClass(i.getInvokedClassName());
-					Method methodInvoked = classOfMethodInvoked.getMethod(i.getInvokedMethodName());
-					if (methodInvoked != null) {
-						methodsToExplore.push(methodInvoked);
-						cg.addVertex(nameOfMethodInvoked);
-						cg.addEdge(nameOfMethodInvoking, nameOfMethodInvoked);
-					}
-				}
-			}
-		}
-
-		exportGraphToDotFile(cg, "./tmp/call-graph.dot");
+		return methodsToExplore;
 	}
 
 	public static DirectedGraph<String, DefaultEdge> getGeneratedCallGraph() {

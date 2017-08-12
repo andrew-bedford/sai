@@ -3,14 +3,14 @@ package sai.monitor;
 import java.util.LinkedList;
 import java.util.List;
 
-import sai.datastructures.Application;
-import sai.datastructures.Class;
-import sai.datastructures.Instruction;
-import sai.datastructures.InstructionType;
-import sai.datastructures.Method;
+import sai.android.Application;
+import sai.android.Class;
+import sai.android.Instruction;
+import sai.android.InstructionType;
+import sai.android.Method;
 
 public class Inliner {
-    //TODO Refacter so that the monitor to inline is also a parameter. Maybe the monitor's rewriting logic could be kept in a easy-to-edit file? In this format, the user should be able to 
+    //TODO Refacter so that the monitor to inline is also a parameter. Maybe the monitor's rewriting logic could be kept in a easy-to-edit file? In this format, the user should be able to
 	public static void  inline(Application a) {
 		insertSourceTaintingLogic(a);
 		insertSinkChecks(a);

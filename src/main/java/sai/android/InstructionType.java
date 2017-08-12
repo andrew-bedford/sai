@@ -1,4 +1,4 @@
-package sai.datastructures;
+package sai.android;
 
 public enum InstructionType {
 	CLASS,

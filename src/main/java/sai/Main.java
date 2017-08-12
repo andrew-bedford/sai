@@ -2,18 +2,15 @@ package sai;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import helpers.ApkHelper;
 import sai.analysis.CallGraph;
 import sai.analysis.ControlFlowGraph;
 import sai.analysis.ProcessAlgebra;
-import sai.datastructures.Application;
+import sai.android.Application;
 import sai.monitor.Inliner;
 
 public class Main {

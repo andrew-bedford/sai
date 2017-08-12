@@ -1,21 +1,22 @@
-package sai.datastructures;
+package sai.android;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Instruction {
-	private String line;
-	private InstructionType type;
+	private String _line;
+	private InstructionType _type;
 	
 	public Instruction(String line) {
-		this.line = line;
-		updateInstructionType(line);
+		_line = line;
+		_type = extractInstructionType(line);
 	}
 
-	private void updateInstructionType(String line) {
+	private InstructionType extractInstructionType(String line) {
+		InstructionType type = InstructionType.OTHER; //Default instruction type
+
 		if (line.startsWith(".class")) { type = InstructionType.CLASS; }
 		else if (line.startsWith(".super")) { type = InstructionType.SUPER; }
 		else if (line.startsWith(".source")) { type = InstructionType.SOURCE; }
@@ -36,25 +37,26 @@ public class Instruction {
 		else if (line.startsWith("if")) { type = InstructionType.IF; }
 		else if (line.startsWith("sparse-switch") || line.startsWith("packed-switch")) { type = InstructionType.SWITCH; }
 		else if (line.startsWith(".locals")) { type = InstructionType.LOCALS; }
-		else { type = InstructionType.OTHER; }
+
+		return type;
 	}
 	
 	public String getLine() {
-		return line;
+		return _line;
 	}
 	
 	public void setLine(String l) {
-		line = l;
-		updateInstructionType(l);
+		_line = l;
+		extractInstructionType(l);
 	}
 
 	public InstructionType getType() {
-		return type;
+		return _type;
 	}
 	
 	public List<String> getRegistersUsed() {
 		Pattern pattern = Pattern.compile("(\\{|\\s)((v|p)\\d*)");
-		Matcher matcher = pattern.matcher(line);
+		Matcher matcher = pattern.matcher(_line);
 		List<String> registers = new ArrayList<String>();
 		while (matcher.find()) {
 			registers.add(matcher.group(2));
@@ -64,22 +66,22 @@ public class Instruction {
 	}
 	
 	public String getInvokedClassName() {
-		if (type == InstructionType.INVOKE) {
-			String[] w = line.split(" ");
+		if (_type == InstructionType.INVOKE) {
+			String[] w = _line.split(" ");
 			return w[w.length-1].split("\\(")[0].split(";->")[0];
 		}
 		return "";
 	}
 	
 	public String getInvokedMethodName() {
-		if (type == InstructionType.INVOKE) {
-			String[] w = line.split(" ");
+		if (_type == InstructionType.INVOKE) {
+			String[] w = _line.split(" ");
 			return w[w.length-1].split("->")[1];
 		}
 		return "";
 	}
 	
 	public String toString() {
-		return line;
+		return _line;
 	}
 }

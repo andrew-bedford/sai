@@ -13,11 +13,11 @@ import org.jgrapht.ext.StringComponentNameProvider;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
-import sai.datastructures.Application;
-import sai.datastructures.Method;
-import sai.datastructures.Class;
-import sai.datastructures.Instruction;
-import sai.datastructures.InstructionType;
+import sai.android.Application;
+import sai.android.Method;
+import sai.android.Class;
+import sai.android.Instruction;
+import sai.android.InstructionType;
 
 public class ControlFlowGraph {
 	public static void generate(Application a) {

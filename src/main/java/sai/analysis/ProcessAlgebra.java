@@ -1,26 +1,21 @@
 package sai.analysis;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.DirectedGraph;
-import org.jgrapht.ext.DOTExporter;
-import org.jgrapht.ext.IntegerComponentNameProvider;
-import org.jgrapht.ext.StringComponentNameProvider;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.traverse.DepthFirstIterator;
 import org.jgrapht.traverse.GraphIterator;
 
-import sai.datastructures.Application;
-import sai.datastructures.Class;
-import sai.datastructures.Instruction;
-import sai.datastructures.InstructionType;
-import sai.datastructures.Method;
+import sai.android.Application;
+import sai.android.Class;
+import sai.android.Instruction;
+import sai.android.InstructionType;
+import sai.android.Method;
 
 public class ProcessAlgebra {
 	static Application app;

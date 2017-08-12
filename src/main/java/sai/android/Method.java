@@ -1,6 +1,5 @@
-package sai.datastructures;
+package sai.android;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Method {

@@ -2,17 +2,15 @@ package sai.analysis;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
-import sai.datastructures.Application;
-import sai.datastructures.Class;
-import sai.datastructures.Instruction;
-import sai.datastructures.InstructionType;
-import sai.datastructures.Method;
+import sai.android.Application;
+import sai.android.Class;
+import sai.android.Instruction;
+import sai.android.InstructionType;
+import sai.android.Method;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.ext.DOTExporter;
 import org.jgrapht.ext.IntegerComponentNameProvider;
@@ -63,19 +61,22 @@ public class CallGraph {
 				}
 			}
 		}
-		
-		
+
+		exportGraphToDotFile(cg, "./tmp/call-graph.dot");
+	}
+
+	public static DirectedGraph<String, DefaultEdge> getGeneratedCallGraph() {
+		return cg;
+	}
+
+	private static void exportGraphToDotFile(DirectedGraph<String, DefaultEdge> graph, String path) {
 		DOTExporter<String, DefaultEdge> exporter = new DOTExporter<String, DefaultEdge>(new IntegerComponentNameProvider(), new StringComponentNameProvider<String>(), null);
 		try {
-			exporter.exportGraph(cg,  new FileWriter("./tmp/call-graph.dot"));
+			exporter.exportGraph(graph,  new FileWriter(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public static DirectedGraph<String, DefaultEdge> getGeneratedCallGraph() {
-		return cg;
-	}
-	
+
 }

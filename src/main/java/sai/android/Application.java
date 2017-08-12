@@ -1,14 +1,11 @@
-package sai.datastructures;
+package sai.android;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import helpers.ApkHelper;
 import helpers.FileHelper;

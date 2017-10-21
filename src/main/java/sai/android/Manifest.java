@@ -8,12 +8,12 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class Manifest {
-	private File file;
+	private File _file;
 	public Collection<String> permissions;
 	public Collection<String> intents;
 	
 	public Manifest(File manifest) {
-		this.file = manifest;
+		_file = manifest;
 		extractPermissions();
 		extractIntents();
 	}
@@ -25,7 +25,7 @@ public class Manifest {
 		String line;
 		this.permissions = new HashSet<String>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(file)); 				
+			BufferedReader br = new BufferedReader(new FileReader(_file));
 			while ((line = br.readLine()) != null) {
 				isPermissionPresent = line.indexOf("<uses-permission ");
 				if (isPermissionPresent != -1) {
@@ -46,7 +46,7 @@ public class Manifest {
 		String line;
 		intents = new HashSet<String>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(file)); 				
+			BufferedReader br = new BufferedReader(new FileReader(_file));
 			while ((line = br.readLine()) != null) {
 				index = line.indexOf("android.intent.");
 				if (index != -1) {

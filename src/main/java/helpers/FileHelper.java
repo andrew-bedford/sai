@@ -19,17 +19,7 @@ public class FileHelper {
 		return f.exists();
 	}
 	
-	public static String convertFileToString(File file) {
-		try {
-			byte[] bytes = Files.readAllBytes(file.toPath());
-			String contents =  new String(bytes,"UTF-8");
-			return contents;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
+
 	
 	/**
 	 * Searches for files in a directory whose name (extension included) ends with a specific string

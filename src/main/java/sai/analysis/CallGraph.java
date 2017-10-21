@@ -61,7 +61,7 @@ public class CallGraph {
 		List<String> methodsExplored = new LinkedList<String>();
 		Stack<Method> methodsToExplore = new Stack<Method>();
 		for (Class c : a.getClasses()) {
-			if (c.getSuperName().equals("Landroid/app/Activity") && !c.getName().startsWith("Landroid")) {
+			if (c.getSuperClassName().equals("Landroid/app/Activity") && !c.getName().startsWith("Landroid")) {
 				Method m = c.getMethod("onCreate(Landroid/os/Bundle;)V");
 				entryPoints.add(m);
 				String entryPointName = c.getName() + ";->" + m.getName();

@@ -29,7 +29,7 @@ public class Inliner {
 				int index = 0;
 				Boolean taintNextResult = false;
 				for (Instruction i : instructions) {
-					newInstructions.add(i);
+					newInstructions.add(i); //Add a copy of the instruction to the "newInstructions", the instrumented code is placed after (in this case)
 					
 					if (i.getType() == InstructionType.INVOKE && i.getLine().contains("Landroid/telephony/TelephonyManager;->getDeviceId")) {
 						taintNextResult = true;

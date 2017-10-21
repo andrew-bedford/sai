@@ -3,42 +3,42 @@ package sai.android;
 import java.util.List;
 
 public class Method {
-	private Class parentClass;
-	private List<Instruction> instructions;
-	private String name;
+	private Class _parentClass;
+	private List<Instruction> _instructions;
+	private String _name;
 	
-	public Method(Class cls, List<Instruction> inst) {
-		parentClass = cls;
-		instructions = inst;
+	public Method(Class parentClass, List<Instruction> inst) {
+		_parentClass = parentClass;
+		_instructions = inst;
 
-		if (instructions.size() > 0) {
-			Instruction firstInstruction = instructions.get(0);
+		if (_instructions.size() > 0) {
+			Instruction firstInstruction = _instructions.get(0);
 			if (firstInstruction.getType() == InstructionType.METHOD_BEGIN) {
 				String[] w = firstInstruction.getLine().split(" ");
-				name =  w[w.length-1];
+				_name =  w[w.length-1];
 			}
 		}
 	}
 	
 	public List<Instruction> getInstructions() {
-		return instructions;
+		return _instructions;
 	}
 	
 	public void setInstructions(List<Instruction> instructions) {
-		this.instructions = instructions;
+		this._instructions = instructions;
 	}
 
 	public String getName() {
-		return name;
+		return _name;
 	}
 	
 	public Class getParentClass() {
-		return parentClass;
+		return _parentClass;
 	}
 	
 	public int getNumberOfLocals() {
 		int locals = 0;
-		for (Instruction i:instructions) {
+		for (Instruction i: _instructions) {
 			if (i.getType() == InstructionType.LOCALS) {
 				locals = Integer.valueOf(i.getLine().replace(".locals ", ""));
 				break;
@@ -52,7 +52,7 @@ public class Method {
 			//TODO Throw exception 
 		}
 		
-		for (Instruction i:instructions) {
+		for (Instruction i: _instructions) {
 			if (i.getType() == InstructionType.LOCALS) {
 				i.setLine(".locals " + String.valueOf(numberOfLocals));
 				break;

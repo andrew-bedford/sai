@@ -10,18 +10,18 @@ import java.util.Scanner;
 
 public class Class {
 
-	private File file;
-	private String name;
-	private String superName;
-	private List<Instruction> header;
-	private List<Instruction> fields;
-	private List<Method> methods;
+	private File _file;
+	private String _name;
+	private String _superClassName;
+	private List<Instruction> _header;
+	private List<Instruction> _fields;
+	private List<Method> _methods;
 	
 	public Class(File f) throws FileNotFoundException {
-		file = f;
-		header = new LinkedList<Instruction>();
-		fields = new LinkedList<Instruction>();
-		methods = new LinkedList<Method>();
+		_file = f;
+		_header = new LinkedList<Instruction>();
+		_fields = new LinkedList<Instruction>();
+		_methods = new LinkedList<Method>();
 		
 		Scanner scanner = new Scanner(f);
 		scanner.useDelimiter("\n");
@@ -33,12 +33,12 @@ public class Class {
 			if (!line.isEmpty()) {
 				Instruction i = new Instruction(line);
 				if (i.getType() == InstructionType.CLASS) {
-					name = extractClassName(line);
-					System.out.println("CLASS NAME: '" + name + "'");
+					_name = extractClassName(line);
+					System.out.println("CLASS NAME: '" + _name + "'");
 				}
 				
 				if (i.getType() == InstructionType.SUPER) {
-					superName = extractSuperName(line);
+					_superClassName = extractSuperName(line);
 				}
 				
 				if (i.getType() == InstructionType.METHOD_BEGIN) {
@@ -49,13 +49,13 @@ public class Class {
 					methodInstructions.add(i);
 					
 					if (i.getType() == InstructionType.METHOD_END) {
-						methods.add(new Method(this, methodInstructions));
+						_methods.add(new Method(this, methodInstructions));
 						insideMethod = false;
 						methodInstructions = new LinkedList<Instruction>();
 					}
 				}
 				else {
-					header.add(i);
+					_header.add(i);
 				}
 					
 				
@@ -78,14 +78,14 @@ public class Class {
 
 	/**
 	 * 
-	 * @return Class name
+	 * @return Class _name
 	 */
 	public String getName() {
-		return name;
+		return _name;
 	}
 	
 	public List<Method> getMethods() {
-		return methods;
+		return _methods;
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class Class {
 	 * @return 
 	 */
 	public Method getMethod(String methodName) {
-		for (Method m : methods) {
+		for (Method m : _methods) {
 			if (m.getName() != null && m.getName().equals(methodName)) {
 				return m;
 			}
@@ -109,23 +109,23 @@ public class Class {
 	 */
 	public void saveChanges() throws IOException {
 		String lines = "";
-		for (Instruction i : header) {
+		for (Instruction i : _header) {
 			lines += i.getLine() + "\n";
 		}
-		for (Method m : methods) {
+		for (Method m : _methods) {
 			List<Instruction> methodInstructions = m.getInstructions();
 			for (Instruction i : methodInstructions) {
 				lines += i.getLine() + "\n";
 			}
 		}
 
-		FileWriter fw = new FileWriter(file, false);
+		FileWriter fw = new FileWriter(_file, false);
 		fw.write(lines);
 		fw.close();
 	}
 
-	public String getSuperName() {
-		return superName;
+	public String getSuperClassName() {
+		return _superClassName;
 	}
 
 }

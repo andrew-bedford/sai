@@ -21,10 +21,10 @@ public class Main {
 		parseArguments(args);
 		if (parameters.isEmpty() || parameters.containsKey("-help")) {
 			System.out.println("Options:");
-			System.out.println("-disassemble [file]\t\t Disassembles APK");
-			System.out.println("-load [folder]\t\t Loads an already disassembled APK in memory");
-			System.out.println("-assemble\t\t Reassembles APK");
-			System.out.println("-inline-monitor\t\t Inserts monitor ");
+			System.out.println("--disassemble [file]\t\t Disassembles APK");
+			System.out.println("--load [folder]\t\t Loads an already disassembled APK in memory");
+			System.out.println("--assemble\t\t Reassembles APK");
+			System.out.println("--inline-monitor\t\t Inserts monitor ");
 		}
 		else if (parameters.containsKey("-disassemble")) {
 			String apkPath = parameters.get("-disassemble").get(0);
